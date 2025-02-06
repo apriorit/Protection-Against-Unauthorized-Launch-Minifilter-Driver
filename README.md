@@ -4,9 +4,9 @@ This repository contains a simple Windows minifilter kernel driver that intercep
 The solution was made in the context of Apriorit blog article ["How to Develop a Windows File System Minifilter Driver: Complete Tutorial"](https://www.apriorit.com/dev-blog/675-driver-windows-minifilter-driver-development-tutorial)
 
 The project illustrates how to:
-- Register a minifilter driver with the Windows Filter Manager.
-- Intercept and inspect file operations.
-- Make a selective filtering or calls.
+- Register a minifilter driver.
+- Intercept file operations.
+- Make a selective filtering of calls.
 - Deny access to prevent process creation or file opening.
 
 ---
