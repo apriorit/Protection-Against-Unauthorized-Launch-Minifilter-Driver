@@ -1,0 +1,82 @@
+;
+; FsMinifilter.inf
+;
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = "Bottom"
+ClassGuid   = {21D41938-DAA8-4615-86AE-E37344C18BD8}
+Provider    = %ManufacturerName%
+CatalogFile = FsMinifilter.cat
+DriverVer   = *
+PnpLockdown = 1
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+FsMinifilter.sys = 1,,
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[File_Copy]
+FsMinifilter.sys
+
+[DefaultInstall.NT$ARCH$]
+OptionDesc          = %ServiceDescription%
+CopyFiles           = File_Copy
+
+;-------------- Service installation
+[DefaultInstall.NT$ARCH$.Services]
+AddService = FsMinifilter,%SPSVCINST_ASSOCSERVICE%, FsMinifilter_Service_Inst
+
+;*****************************************
+; Uninstall Section
+;*****************************************
+
+[DefaultUninstall.NT$ARCH$]
+LegacyUninstall = 1
+DelFiles   = FsMinifilter.DeleteDriverFiles
+
+[DefaultUninstall.NT$ARCH$.Services]
+DelService = FsMinifilter,0x200      ;Ensure service is stopped before deleting
+
+[FsMinifilter.DeleteDriverFiles]
+FsMinifilter.sys
+
+; -------------- FsMinifilter driver install sections
+[FsMinifilter_Service_Inst]
+DisplayName    = %FsMinifilter.SVCDESC%
+Dependencies   = FltMgr
+ServiceType    = 2               ; SERVICE_FILE_SYSTEM_DRIVER
+StartType      = 1               ; SERVICE_SYSTEM_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\FsMinifilter.sys ; %windir%\system32\drivers\
+LoadOrderGroup = "FSFilter Bottom"
+AddReg         = FsMinifilter.AddRegistry
+
+;--- minifilter registration
+[FsMinifilter.AddRegistry]
+HKR,,"SupportedFeatures",0x00010001,0xb
+HKR,"Instances","DefaultInstance",0x00000000,%DefaultInstance%
+HKR,"Instances\"%Instance1.Name%,"Altitude",0x00000000,%Instance1.Altitude%
+HKR,"Instances\"%Instance1.Name%,"Flags",0x00010001,%Instance1.Flags%
+
+[Strings]
+SPSVCINST_ASSOCSERVICE = 0x00000002
+ManufacturerName = "Apriorit Company"
+DiskName = "FsMinifilter Installation Disk"
+FsMinifilter.DeviceDesc = "FsMinifilter Device"
+FsMinifilter.SVCDESC = "FsMinifilter Service"
+ServiceDescription = "Apriorit Minifilter driver"
+
+;Instances specific information.
+DefaultInstance         = "FsMinifilterDriver Instance"
+Instance1.Name          = "FsMinifilterDriver Instance"
+Instance1.Altitude      = "47777"
+Instance1.Flags         = 0x0              ; Allow all attachments
