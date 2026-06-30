@@ -68,4 +68,14 @@ The project illustrates how to:
 4. **Attempt to launch the specified executable or file**
 
 ---
- 
+
+## About Apriorit
+
+This repository is a public technical example from Apriorit related to kernel and advanced software engineering.
+
+Apriorit is a cybersecurity-focused software engineering company that helps technology companies build secure, reliable, and high-performance software — from kernel-level components to cloud-based platforms.
+
+Learn more: https://www.apriorit.com/dev-blog/167-file-system-filter-driver
+
+Website: https://www.apriorit.com
+
